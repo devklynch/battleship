@@ -57,12 +57,11 @@ RSpec.describe Cell do
         @cell_2 = Cell.new("C3")
         @cruiser = Ship.new("Cruiser", 3)
         @cell_2.place_ship(@cruiser)
-
         expect(@cell_2.render).to eq(".")
         expect(@cell_2.render(true)).to eq("S")
     end
 
-    xit 'can render if the cell has been fired upon contains a ship' do
+    it 'can render if the cell has been fired upon contains a ship' do
         @cell_2 = Cell.new("C3")
         @cruiser = Ship.new("Cruiser", 3)
         @cell_2.place_ship(@cruiser)
@@ -71,7 +70,7 @@ RSpec.describe Cell do
         expect(@cell_2.render).to eq("H")
     end
 
-    xit 'can render if the cell has been fired upon and its ship has been sunk' do
+    it 'can render if the cell has been fired upon and its ship has been sunk' do
         @cell_2 = Cell.new("C3")
         @cruiser = Ship.new("Cruiser", 3)
         @cell_2.place_ship(@cruiser)
