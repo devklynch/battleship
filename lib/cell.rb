@@ -27,12 +27,21 @@ class Cell
         end
     end
 
-    def render()
+    def render(show_ship = true)
         if @fired_upon
-            "M"
+            if @ship & @ship.sunk?
+                "X"
+            elsif @ship
+                "H"
+            else
+                "M"
+            end
         else
-            "."
+            if show_ship && @ship
+                "S"
+            else
+                "."
+            end
         end
     end
-
 end
