@@ -30,6 +30,12 @@ class Board
 
         if ship.length != coordinates.length
             false
+        elsif coordinates.any? do |coordinate|
+            #require "pry" ; binding.pry
+            cells[coordinate].empty? == false
+        end
+            false
+
         elsif horizontal_check(ship,coordinates) == true && vertical_check(ship,coordinates) != true
             true
         elsif vertical_check(ship,coordinates) == true && horizontal_check(ship,coordinates) != true
