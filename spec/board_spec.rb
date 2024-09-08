@@ -24,16 +24,32 @@ RSpec.describe Board do
         expect(@board.valid_coordinate?("A22")).to eq(false)
     end
 
-    it 'can validate placements' do 
+    describe 'can validate placements' do 
+        before(:each) do
         @cruiser = Ship.new("Cruiser", 3)
         @submarine = Ship.new("Submarine", 2)
+        end
 
-        expect(@board.valid_placement?(cruiser, ["A1", "A2"])).to eq false
-        expect(@board.valid_placement?(submarine, ["A1", "C1"])).to eq false
-        expect(@board.valid_placement?(cruiser, ["A3", "A2", "A1"])).to eq false
-        expect(@board.valid_placement?(submarine, ["C1", "B1"])).to eq false   
+        it 'checks the array is the same length as the ship' do
+            expect(@board.valid_placement?(cruiser, ["A1", "A2"])).to eq false
+            expect(@board.valid_placement?(submarine, ["A2", "A3", "A4"])).to eq false
+            end
         
-        
-        
+        it 'checks that the coordinates are consecutive' do
+            expect(@board.valid_placement?(submarine, ["A1", "C1"])).to eq false
+            expect(@board.valid_placement?(cruiser, ["A1", "A2", "A4"])).to eq false
+            expect(@board.valid_placement?(cruiser, ["A3", "A2", "A1"])).to eq false
+            expect(@board.valid_placement?(submarine, ["C1", "B1"])).to eq false 
+        end
+
+        it 'checks that coordinates are not diagonal' do
+            expect(@board.valid_placement?(cruiser, ["A1", "B2", "C3"])).to eq false
+            expect(@board.valid_placement?(submarine, ["C2", "D3"])).to eq false 
+        end
+
+        it' can place ships with valid placements' do
+            expect(@board.valid_placement?(cruiser, ["B1", "C1", "D1"])).to eq true
+            expect(@board.valid_placement?(submarine, ["A1", "A2"])).to eq true
+        end
     end
 end
