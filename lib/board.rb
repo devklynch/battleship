@@ -27,18 +27,12 @@ class Board
     end
 
     def valid_placement?(ship,coordinates)
-
-        if ship.length != coordinates.length
-            false
-        elsif coordinates.any? do |coordinate|
+        return false if ship.length != coordinates.length
+        return false if coordinates.any? {|coordinate| cells[coordinate].empty? == false }
             #require "pry" ; binding.pry
-            cells[coordinate].empty? == false
-        end
-            false
-
-        elsif horizontal_check(ship,coordinates) == true && vertical_check(ship,coordinates) != true
+        if  horizontal_check(ship,coordinates) == true && !vertical_check(ship,coordinates)
             true
-        elsif vertical_check(ship,coordinates) == true && horizontal_check(ship,coordinates) != true
+        elsif vertical_check(ship,coordinates) == true && !horizontal_check(ship,coordinates)
             true
         else
             false

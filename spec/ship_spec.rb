@@ -28,9 +28,9 @@ RSpec.describe Ship do
     end
 
     it 'Can sink' do
-        @cruiser.hit
-        @cruiser.hit
+        2.times {@cruiser.hit}
         expect(@cruiser.sunk?).to eq(false)
+        
         @cruiser.hit
         expect(@cruiser.sunk?).to eq(true)
     end
