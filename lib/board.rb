@@ -1,3 +1,4 @@
+require 'pry'
 class Board
     attr_reader :cells
 
@@ -54,14 +55,16 @@ class Board
     end
 
     def vertical_check(ship,coordinates)
+        #letters_board = ('A...D').to_a.each(ship.length).to_a
         letters_board= [65,66,67,68].each_cons(ship.length).to_a
         letters = []
         nums = []
         coordinates.each do |coordinate|
+            #letters << coordinate[0]
             letters << (coordinate[0]).ord
             nums <<(coordinate[1]).to_i
         end
-        nums.uniq.length ==1 && letters_board.include?(letters)
+        nums.uniq.length == 1 && letters_board.include?(letters)
     end
 
     def place(ship,coordinates)
@@ -70,10 +73,21 @@ class Board
 
         coordinates.each do |coordinate|
             cells[coordinate].place_ship(ship)
-            #require "pry" ; binding.pry
-        end
-        #require "pry" ; binding.pry
+        end        
     end
 
-
+    def render(render=false)
+        header = " 1 2 3 4 \n" #Creating our top row
+        rows = ["A", "B", "C", "D"] #Creating our letters for row
+        
+        board_string = rows.map do |row| #going through each element assigning them their own "row_string"
+            row_string = "#{row} " 
+            (1..4).each do |num|
+                coordinate = "#{row}#{num}"
+                row_string += "#{@cells[coordinate].render(render)} "
+            end
+            row_string.strip + " \n"
+        end.join
+        header + board_string
+    end
 end
