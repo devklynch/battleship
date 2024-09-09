@@ -31,7 +31,7 @@ RSpec.describe Cell do
         @cruiser = Ship.new("Cruiser", 3)
         @cell.place_ship(@cruiser)
 
-        expect(@cell.fired_upon?).to eq(false)
+        expeexitrct(@cell.fired_upon?).to eq(false)
     end
 
     it 'can be fired upon' do

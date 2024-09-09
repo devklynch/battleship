@@ -1,3 +1,4 @@
+require 'pry'
 require './lib/ship'
 require './lib/cell'
 require './lib/board'
@@ -74,6 +75,25 @@ RSpec.describe Board do
             @submarine = Ship.new("Submarine", 2)
 
             expect(@board.valid_placement?(@submarine, ["A1", "B1"])).to eq(false)
+        end
 
+        it 'can render an empty board' do
+            @cruiser = Ship.new("Cruiser", 3)
+            @board.place(@cruiser, ["A1", "A2", "A3"])
+
+            expect(@board.render).to eq(" 1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
+            expect(@board.render(true)).to eq(" 1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
+        end
+
+        it 'can be fired upon cell, and test for new render' do
+            @cruiser = Ship.new("Cruiser", 3)
+            @board.place(@cruiser, ["A1", "A2", "A3"])
+
+            @board.cells["A1"].fire_upon
+            @board.cells["B4"].fire_upon
+            @board.cells["C1"].fire_upon
+            @board.cells["D1"].fire_upon           
+            
+            expect(@board.render).to eq(" 1 2 3 4 \nA H . . . \nB . . . M \nC M . . . \nD M . . . \n")
         end
 end
