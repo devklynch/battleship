@@ -75,7 +75,7 @@ class Board
         header = " 1 2 3 4 \n" #Creating our top row
         rows = ["A", "B", "C", "D"] #Creating our letters for row
         
-        board_string = rows.map do |row| #going through each element assigning them their own "row_string"
+        board_string = rows.map do |row| #enumerating through each element assigning them their own "row_string"
             row_string = "#{row} " 
             (1..4).each do |num|
                 coordinate = "#{row}#{num}"
