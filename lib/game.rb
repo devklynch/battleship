@@ -143,12 +143,11 @@ class Game
         #binding.pry
         if @computer_board.cells[@player_target].fired_upon?
             puts "Cell #{@player_target} has already been fired on. Please give new coordniate"            
-            response = gets.chomp.
-            binding.pry
+            response = gets.chomp
         elsif
             @computer_board.cells[@player_target].fire_upon
+            puts "Player has fired upon #{player_target}"
                 if @computer_board.cells[@player_target].empty?
-                    
                     puts "Player fires at #{@player_target} and missed!"
                 else
                     puts "Player fires at #{@player_target} and hits!"
