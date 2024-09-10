@@ -30,10 +30,11 @@ class Game
 #         end
 #     end
 
-    def new_game(response)
+    def new_game
         p "Welcome to BATTLESHIP
             Enter p to play. Enter q to quit."
-            if response = "p"
+            response= gets.chomp
+            if response == "p"
                 computer_submarine_placement
                 computer_cruiser_placement
                 place_player_ship
@@ -45,21 +46,21 @@ class Game
         p "I have laid out my ships on the grid.You now need to lay out your two ships.\nThe Cruiser is three units long and the Submarine is two units long. #{@player_board.render}"
 
         p "Please give coodinates for Cruiser(3 spaces)"
-        user_input = gets.chomp.downcase
+        user_input = gets.chomp.split
         until @player_board.valid_placement?(@player_cruiser,user_input)
             p "Those are not valid coordinates"
-            user_input = gets.chomp.downcase
+            user_input = gets.chomp.split
         end
         @player_board.place(@player_cruiser,user_input)
         p "Player has placed Cruiser on #{user_input}"
         
         p "Please give coodinates for Submarine(2 spaces)"
-        user_input = gets.chomp.downcase
+        user_input = gets.chomp.split
         until @player_board.valid_placement?(@player_submarine,user_input)
             p "Those are not valid coordinates"
             user_input = gets.chomp.split
         end
-        @player_board.place(submarine,user_input)
+        @player_board.place(@player_submarine,user_input)
         p "Player has placed Cruiser on #{user_input}"
     end
 
@@ -67,28 +68,28 @@ class Game
 
     def computer_submarine_placement
 #    def computer_placement(ship)
-        random_coordinates = @computer_board.cells.keys.sample(3)
+        # random_coordinates = @computer_board.cells.keys.sample(3)
 
-        until @computer_board.valid_placement?(ship,random_coordinates) 
-            random_coordinates = @computer_board.cells.keys.sample(3)
-        end
-        @computer_board.place(@computer_cruiser,random_coordinates)
-        # orientation=["horizontal","vertical"].sample
-        # if orientation == "horizontal"
-        #     column=[1,2,3].sample
-        #     row=["A","B","C","D"].sample
+        # until @computer_board.valid_placement?(@computer_submarine,random_coordinates) 
+        #     random_coordinates = @computer_board.cells.keys.sample(3)
+        # end
+        # @computer_board.place(@computer_submarine,random_coordinates)
+        orientation=["horizontal","vertical"].sample
+        if orientation == "horizontal"
+            column=[1,2,3].sample
+            row=["A","B","C","D"].sample
 
-        #     ship_coordinates=[row+column.to_s, row +(column+1).to_s]
-        #     @computer_board.place(@computer_submarine,ship_coordinates)
+            ship_coordinates=[row+column.to_s, row +(column+1).to_s]
+            @computer_board.place(@computer_submarine,ship_coordinates)
         
 
-        # elsif orientation == "vertical"
-        #     column=["1","2","3","4"].sample
-        #     row=[65,66,67].sample
-        #     ship_coordinates= [row.chr+column, (row+1).chr+column]
-        #     #require "pry" ; binding.pry
-        #     @computer_board.place(@computer_submarine,ship_coordinates)
-        # end
+        elsif orientation == "vertical"
+            column=["1","2","3","4"].sample
+            row=[65,66,67].sample
+            ship_coordinates= [row.chr+column, (row+1).chr+column]
+            #require "pry" ; binding.pry
+            @computer_board.place(@computer_submarine,ship_coordinates)
+        end
     end
 
     def computer_cruiser_placement
