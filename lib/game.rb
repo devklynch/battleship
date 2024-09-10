@@ -152,8 +152,11 @@ class Game
                 if @computer_board.cells[@player_target].empty?
                
                    puts "Player fires at #{@player_target} and missed!"
+                elsif @computer_board.cells[@player_target].ship.sunk?
+                    puts "Player fires at #{@player_target} and sinks #{@computer_board.cells[@player_target].ship.name}!"
                 else
                     puts "Player fires at #{@player_target} and hits!"
+                    #binding.pry
                 end
                     # puts @computer_board.render(false)
                     # puts @player_board.render(true)
@@ -170,8 +173,11 @@ class Game
 
         if @player_board.cells[computer_target].empty?
             puts "Computer fires at #{computer_target} and missed!"
+        elsif @player_board.cells[computer_target].ship.sunk?
+            puts "Computer fires at #{computer_target} and sinks #{@player_board.cells[computer_target].ship.name}!"
         else
             puts "Computer fires at #{computer_target} and hits!"
+            
         end
     end
 
