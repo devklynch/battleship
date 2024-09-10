@@ -69,10 +69,10 @@ class Board
 
     def place(ship,coordinates)
         #validate coordinates
-        valid_placement?(ship,coordinates) == true
+        #valid_placement?(ship,coordinates) == true
 
         coordinates.each do |coordinate|
-            cells[coordinate].place_ship(ship)
+            cells[coordinate].place_ship(ship) if valid_placement?(ship,coordinates)
         end        
     end
 
