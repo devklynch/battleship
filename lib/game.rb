@@ -32,7 +32,7 @@ class Game
     def new_game
         p "Welcome to BATTLESHIP
             Enter p to play. Enter q to quit."
-            response= gets.chomp
+            response= gets.chomp.downcase
             if response == "p"
                 computer_submarine_placement
                 computer_cruiser_placement
@@ -65,19 +65,19 @@ class Game
         puts"#{@player_board.render}"
 
         puts "Please give coodinates for Cruiser(3 spaces)"
-        user_input = gets.chomp.split
+        user_input = gets.chomp.upcase.split
         until @player_board.valid_placement?(@player_cruiser,user_input)
             puts "Those are not valid coordinates"
-            user_input = gets.chomp.split
+            user_input = gets.chomp.upcase.split
         end
         @player_board.place(@player_cruiser, user_input)
         puts "Player has placed Cruiser on #{user_input}"
         
         puts "Please give coodinates for Submarine(2 spaces)"
-        user_input = gets.chomp.split
+        user_input = gets.chomp.upcase.split
         until @player_board.valid_placement?(@player_submarine,user_input)
             puts "Those are not valid coordinates"
-            user_input = gets.chomp.split
+            user_input = gets.chomp.upcase.split
         end
         @player_board.place(@player_submarine,user_input)
         puts "Player has placed Cruiser on #{user_input}"
@@ -137,14 +137,18 @@ class Game
     end
 
     def player_turn
+        puts "_____Computer Board____"
         puts @computer_board.render(false)
+        puts " "
+        puts "_____Player Board____"
+        puts "   "
         puts @player_board.render(true)
         puts "Enter the coordinates for your shot"
-        @player_target = gets.chomp
+        @player_target = gets.chomp.upcase
         #binding.pry
         until  !@computer_board.cells[@player_target].fired_upon?
             puts "Cell #{@player_target} has already been fired on. Please give new coordniate"            
-            @player_target = gets.chomp
+            @player_target = gets.chomp.upcase
             #binding.pry
         end
             @computer_board.cells[@player_target].fire_upon
