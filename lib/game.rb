@@ -36,7 +36,11 @@ class Game
                 computer_submarine_placement
                 computer_cruiser_placement
                 place_player_ship
-                turn
+                until (@player_cruiser.sunk? && @player_submarine.sunk?)
+                     || (@computer_cruiser.sunk? && @computer_submarine.sunk?)
+                     player_turn
+                     computer_turn
+                end
             elsif response == "q"
                 "You are not playing the game"
             end
@@ -131,16 +135,36 @@ class Game
         end
     end
 
-    def turn
+    def player_turn
         puts @computer_board.render(false)
         puts @player_board.render(true)
         puts "Enter the coordinates for your shot"
-        response = gets.chomp
-        if @computer_board.cells[response].fired_upon? == true
-            puts "Cell #{response} has already been fired on. Please give new coordniate"            
-            response = gets.chomp
+        player_target = gets.chomp.split
+        if @computer_board.cells[player_target].fired_upon?
+            puts "Cell #{player_target} has already been fired on. Please give new coordniate"            
+            response = gets.chomp.split
         elsif
             @computer_board.cells[response].fire_upon
+                if @computer_board.cells[player_target].empty?
+                    puts "Computer fires at #{player_target} and missed!"
+                else
+                    puts "Computer fires at #{player_target} and hits!"
+                end
+                    puts @computer_board.render(false)
+                    puts @player_board.render(true)
+            end
+        end
+
+    def computer_turn
+        computer_target = @player_board.keys.sample
+        until !@player_board.cells[computer_target].fired_upon?
+            computer_target = @player_board.keys.sample
+        end
+        @player_board.cells[computer_target].fire_upon
+        if @player_board.cells[computer_target].empty?
+            puts "Computer fires at #{computer_target} and missed!"
+        else
+            puts "Computer fires at #{computer_target} and hits!"
         end
     end
 end
