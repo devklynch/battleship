@@ -32,7 +32,7 @@ class Game
     def new_game
         p "Welcome to BATTLESHIP
             Enter p to play. Enter q to quit."
-            response= gets.chomp
+            response= gets.chomp.downcase
             if response == "p"
                 computer_submarine_placement
                 computer_cruiser_placement
@@ -40,6 +40,7 @@ class Game
                 until (@player_cruiser.sunk? && @player_submarine.sunk?)|| (@computer_cruiser.sunk? && @computer_submarine.sunk?)
                      player_turn
                      computer_turn
+                
                 end
             elsif response == "q"
                 "You are not playing the game"
@@ -64,19 +65,19 @@ class Game
         puts"#{@player_board.render}"
 
         puts "Please give coodinates for Cruiser(3 spaces)"
-        user_input = gets.chomp.split
+        user_input = gets.chomp.upcase.split
         until @player_board.valid_placement?(@player_cruiser,user_input)
             puts "Those are not valid coordinates"
-            user_input = gets.chomp.split
+            user_input = gets.chomp.upcase.split
         end
         @player_board.place(@player_cruiser, user_input)
         puts "Player has placed Cruiser on #{user_input}"
         
         puts "Please give coodinates for Submarine(2 spaces)"
-        user_input = gets.chomp.split
+        user_input = gets.chomp.upcase.split
         until @player_board.valid_placement?(@player_submarine,user_input)
             puts "Those are not valid coordinates"
-            user_input = gets.chomp.split
+            user_input = gets.chomp.upcase.split
         end
         @player_board.place(@player_submarine,user_input)
         puts "Player has placed Cruiser on #{user_input}"
@@ -136,25 +137,38 @@ class Game
     end
 
     def player_turn
+        puts "_____Computer Board____"
         puts @computer_board.render(false)
+        puts " "
+        puts "_____Player Board____"
+        puts "   "
         puts @player_board.render(true)
         puts "Enter the coordinates for your shot"
-        @player_target = gets.chomp
+        @player_target = gets.chomp.upcase
         #binding.pry
-        if @computer_board.cells[@player_target].fired_upon?
+        until  !@computer_board.cells[@player_target].fired_upon?
             puts "Cell #{@player_target} has already been fired on. Please give new coordniate"            
+            @player_target = gets.chomp.upcase
+            #binding.pry
+        end
             response = gets.chomp
         elsif
             @computer_board.cells[@player_target].fire_upon
+        
             puts "Player has fired upon #{player_target}"
                 if @computer_board.cells[@player_target].empty?
+               
+                   puts "Player fires at #{@player_target} and missed!"
+                elsif @computer_board.cells[@player_target].ship.sunk?
+                    puts "Player fires at #{@player_target} and sinks #{@computer_board.cells[@player_target].ship.name}!"
                     puts "Player fires at #{@player_target} and missed!"
                 else
                     puts "Player fires at #{@player_target} and hits!"
+                    #binding.pry
                 end
-                    puts @computer_board.render(false)
-                    puts @player_board.render(true)
-            end
+                    # puts @computer_board.render(false)
+                    # puts @player_board.render(true)
+            
         end
 
     def computer_turn
@@ -164,10 +178,16 @@ class Game
             computer_target = @player_board.cells.keys.sample
         end
         @player_board.cells[computer_target].fire_upon
+
         if @player_board.cells[computer_target].empty?
             puts "Computer fires at #{computer_target} and missed!"
+        elsif @player_board.cells[computer_target].ship.sunk?
+            puts "Computer fires at #{computer_target} and sinks #{@player_board.cells[computer_target].ship.name}!"
         else
             puts "Computer fires at #{computer_target} and hits!"
+            
         end
     end
+
+
 end
