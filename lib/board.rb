@@ -28,17 +28,12 @@ class Board
     end
 
     def valid_placement?(ship,coordinates)
-        return false if ship.length != coordinates.length
-        return false if coordinates.any? {|coordinate| cells[coordinate].empty? == false }
-            #require "pry" ; binding.pry
-        if  horizontal_check(ship,coordinates) == true && !vertical_check(ship,coordinates)
-            true
-        elsif vertical_check(ship,coordinates) == true && !horizontal_check(ship,coordinates)
-            true
-        else
-            false
-        end
-    #require "pry" ; binding.pry
+   
+        ship.length == coordinates.length && coordinates.all? {|coordinate| cells[coordinate].empty?} &&
+        ((horizontal_check(ship,coordinates)&& !vertical_check(ship,coordinates)) ||
+            
+        (vertical_check(ship,coordinates) && !horizontal_check(ship,coordinates)))
+        
     end
 
     def horizontal_check(ship,coordinates)
@@ -69,10 +64,10 @@ class Board
 
     def place(ship,coordinates)
         #validate coordinates
-        valid_placement?(ship,coordinates) == true
+        #valid_placement?(ship,coordinates) == true
 
         coordinates.each do |coordinate|
-            cells[coordinate].place_ship(ship)
+            cells[coordinate].place_ship(ship) if valid_placement?(ship,coordinates)
         end        
     end
 
