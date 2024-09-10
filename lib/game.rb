@@ -40,6 +40,7 @@ class Game
                 until (@player_cruiser.sunk? && @player_submarine.sunk?)|| (@computer_cruiser.sunk? && @computer_submarine.sunk?)
                      player_turn
                      computer_turn
+                
                 end
             elsif response == "q"
                 "You are not playing the game"
@@ -141,21 +142,22 @@ class Game
         puts "Enter the coordinates for your shot"
         @player_target = gets.chomp
         #binding.pry
-        if @computer_board.cells[@player_target].fired_upon?
+        until  !@computer_board.cells[@player_target].fired_upon?
             puts "Cell #{@player_target} has already been fired on. Please give new coordniate"            
-            response = gets.chomp.
-            binding.pry
-        elsif
+            @player_target = gets.chomp
+            #binding.pry
+        end
             @computer_board.cells[@player_target].fire_upon
+        
                 if @computer_board.cells[@player_target].empty?
-                    
-                    puts "Player fires at #{@player_target} and missed!"
+               
+                   puts "Player fires at #{@player_target} and missed!"
                 else
                     puts "Player fires at #{@player_target} and hits!"
                 end
-                    puts @computer_board.render(false)
-                    puts @player_board.render(true)
-            end
+                    # puts @computer_board.render(false)
+                    # puts @player_board.render(true)
+            
         end
 
     def computer_turn
@@ -165,10 +167,13 @@ class Game
             computer_target = @player_board.cells.keys.sample
         end
         @player_board.cells[computer_target].fire_upon
+
         if @player_board.cells[computer_target].empty?
             puts "Computer fires at #{computer_target} and missed!"
         else
             puts "Computer fires at #{computer_target} and hits!"
         end
     end
+
+
 end
