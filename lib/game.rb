@@ -1,6 +1,5 @@
 require 'pry'
 class Game
-
     attr_reader :computer_board,
                 :player_board,
                 :computer_cruiser,
@@ -29,7 +28,6 @@ class Game
 #             "You are not playing the game"
 #         end
 #     end
-
     def new_game
         p "Welcome to BATTLESHIP
             Enter p to play. Enter q to quit."
@@ -38,30 +36,46 @@ class Game
                 computer_submarine_placement
                 computer_cruiser_placement
                 place_player_ship
+                turn
             elsif response == "q"
                 "You are not playing the game"
             end
-    end
-    def place_player_ship
-        p "I have laid out my ships on the grid.You now need to lay out your two ships.\nThe Cruiser is three units long and the Submarine is two units long. #{@player_board.render}"
+        end
+    # def new_game(response)
+    # p "Welcome to BATTLESHIP
+    #     Enter p to play. Enter q to quit."
+    #     if response == "p"
+    #         computer_submarine_placement
+    #         computer_cruiser_placement
+    #         place_player_ship
+    #     elsif response == "q"
+    #         "You are not playing the game"
+    #     end
+    # end
 
-        p "Please give coodinates for Cruiser(3 spaces)"
+    def place_player_ship
+        puts "I have laid out my ships on the grid."
+        puts"You now need to lay out your two ships."
+        puts"The Cruiser is three units long and the Submarine is two units long."
+        puts"#{@player_board.render}"
+
+        puts "Please give coodinates for Cruiser(3 spaces)"
         user_input = gets.chomp.split
         until @player_board.valid_placement?(@player_cruiser,user_input)
-            p "Those are not valid coordinates"
+            puts "Those are not valid coordinates"
             user_input = gets.chomp.split
         end
-        @player_board.place(@player_cruiser,user_input)
-        p "Player has placed Cruiser on #{user_input}"
+        @player_board.place(@player_cruiser, user_input)
+        puts "Player has placed Cruiser on #{user_input}"
         
-        p "Please give coodinates for Submarine(2 spaces)"
+        puts "Please give coodinates for Submarine(2 spaces)"
         user_input = gets.chomp.split
         until @player_board.valid_placement?(@player_submarine,user_input)
-            p "Those are not valid coordinates"
+            puts "Those are not valid coordinates"
             user_input = gets.chomp.split
         end
         @player_board.place(@player_submarine,user_input)
-        p "Player has placed Cruiser on #{user_input}"
+        puts "Player has placed Cruiser on #{user_input}"
     end
 
 
@@ -115,8 +129,18 @@ class Game
         else
             computer_cruiser_placement
         end
-        #binding.pry
     end
 
-    
+    def turn
+        puts @computer_board.render(false)
+        puts @player_board.render(true)
+        puts "Enter the coordinates for your shot"
+        response = gets.chomp
+        if @computer_board.cells[response].fired_upon? == true
+            puts "Cell #{response} has already been fired on. Please give new coordniate"            
+            response = gets.chomp
+        elsif
+            @computer_board.cells[response].fire_upon
+        end
+    end
 end
