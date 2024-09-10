@@ -6,6 +6,7 @@ class Game
                 :computer_submarine,
                 :player_cruiser,
                 :player_submarine
+                :player_target
 
     def initialize
         @computer_board = Board.new
@@ -36,8 +37,7 @@ class Game
                 computer_submarine_placement
                 computer_cruiser_placement
                 place_player_ship
-                until (@player_cruiser.sunk? && @player_submarine.sunk?)
-                     || (@computer_cruiser.sunk? && @computer_submarine.sunk?)
+                until (@player_cruiser.sunk? && @player_submarine.sunk?)|| (@computer_cruiser.sunk? && @computer_submarine.sunk?)
                      player_turn
                      computer_turn
                 end
@@ -139,16 +139,19 @@ class Game
         puts @computer_board.render(false)
         puts @player_board.render(true)
         puts "Enter the coordinates for your shot"
-        player_target = gets.chomp.split
-        if @computer_board.cells[player_target].fired_upon?
-            puts "Cell #{player_target} has already been fired on. Please give new coordniate"            
-            response = gets.chomp.split
+        @player_target = gets.chomp
+        #binding.pry
+        if @computer_board.cells[@player_target].fired_upon?
+            puts "Cell #{@player_target} has already been fired on. Please give new coordniate"            
+            response = gets.chomp.
+            binding.pry
         elsif
-            @computer_board.cells[response].fire_upon
-                if @computer_board.cells[player_target].empty?
-                    puts "Computer fires at #{player_target} and missed!"
+            @computer_board.cells[@player_target].fire_upon
+                if @computer_board.cells[@player_target].empty?
+                    
+                    puts "Player fires at #{@player_target} and missed!"
                 else
-                    puts "Computer fires at #{player_target} and hits!"
+                    puts "Player fires at #{@player_target} and hits!"
                 end
                     puts @computer_board.render(false)
                     puts @player_board.render(true)
@@ -156,9 +159,10 @@ class Game
         end
 
     def computer_turn
-        computer_target = @player_board.keys.sample
+        #binding.pry
+        computer_target = @player_board.cells.keys.sample
         until !@player_board.cells[computer_target].fired_upon?
-            computer_target = @player_board.keys.sample
+            computer_target = @player_board.cells.keys.sample
         end
         @player_board.cells[computer_target].fire_upon
         if @player_board.cells[computer_target].empty?
