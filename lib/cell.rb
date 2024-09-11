@@ -29,35 +29,19 @@ class Cell
     end
 
     def render(reveal=false)
-    #     if reveal == true && @ship != nil
-    #         "S"
-    #     elsif @fired_upon == true && @ship == nil
-    #         "M"
-    #     elsif @fired_upon == true && @ship != nil
-    #          if @ship.sunk? == false
-    #             "H"
-    #          else
-    #             "X"
-    #          end
-    #     else
-    #         "."
-    #     end
-    # end
-
-
-    if @fired_upon == true && @ship == nil
-        "M"
-    elsif @fired_upon == true && @ship != nil
-         if @ship.sunk? == false
-            "H"
- 
-         else
-            "X"
-         end
-    elsif reveal == true && @ship != nil
-        "S"
-    else
-        "."
+        if @fired_upon == true && @ship == nil
+            "M"
+        elsif @fired_upon == true && @ship != nil
+            if @ship.sunk? == false
+                "H"
+            else
+                "X"
+            end
+        elsif reveal == true && @ship != nil
+            "S"
+        else
+            "."
+        end
     end
-end
+    
 end
