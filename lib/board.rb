@@ -28,12 +28,9 @@ class Board
     end
 
     def valid_placement?(ship,coordinates)
-   
         ship.length == coordinates.length && coordinates.all? {|coordinate| cells[coordinate].empty?} &&
         ((horizontal_check(ship,coordinates)&& !vertical_check(ship,coordinates)) ||
-            
         (vertical_check(ship,coordinates) && !horizontal_check(ship,coordinates)))
-        
     end
 
     def horizontal_check(ship,coordinates)
@@ -44,18 +41,14 @@ class Board
             letters << (coordinate[0]).ord
             nums <<(coordinate[1]).to_i
         end
-        #require "pry" ; binding.pry
         letters.uniq.length == 1 && nums_board.include?(nums)
-
     end
 
     def vertical_check(ship,coordinates)
-        #letters_board = ('A...D').to_a.each(ship.length).to_a
         letters_board= [65,66,67,68].each_cons(ship.length).to_a
         letters = []
         nums = []
         coordinates.each do |coordinate|
-            #letters << coordinate[0]
             letters << (coordinate[0]).ord
             nums <<(coordinate[1]).to_i
         end
@@ -63,12 +56,10 @@ class Board
     end
 
     def place(ship,coordinates)
-        #validate coordinates
-        #valid_placement?(ship,coordinates) == true
         if valid_placement?(ship,coordinates)
-        coordinates.each do |coordinate|
-            cells[coordinate].place_ship(ship) 
-        end
+            coordinates.each do |coordinate|
+                cells[coordinate].place_ship(ship) 
+            end
         end        
     end
 
@@ -86,4 +77,5 @@ class Board
         end.join
         header + board_string
     end
+    
 end
